@@ -8,31 +8,46 @@ from nltk.tokenize.treebank import TreebankWordDetokenizer
 LEMMATIZER = nltk.stem.WordNetLemmatizer()
 STEMMER = nltk.stem.PorterStemmer()
 DETOKENIZER = TreebankWordDetokenizer()
-
-STOPWORDS = set(nltk.corpus.stopwords.words("english") + [
-    "oh", "yeah", "la", "na", "da", "ay", "ah", "woah", "woo", "uh", "ha", "hey"
-])
+STOPWORDS = set(nltk.corpus.stopwords.words("english"))
 
 
-def regex_cleaner(raw_text):
-    sections = r"verse|chorus|intro|outro|bridge|hook|refrain|pre-chorus"
+import re
+import nltk
+
+
+def regex_cleaner(raw_text, stopwords=None, collapse_elongations=True):
+    if stopwords is None:
+        stopwords = STOPWORDS
+
+    sections = r"pre-chorus|verse|chorus|intro|outro|bridge|hook|refrain"
     song_tags = re.compile(rf"[\[\(]?\b(?:{sections})\b(?:\s+\d+|\s*:)?\s*[\]\)]?", flags=re.IGNORECASE)
-    url_pattern = r"(?:https?://|www\.)\S+|(?:[a-z0-9]+\.)+[a-z0-9]{2,}(?:/\S*)?"
-    bracket_pattern = r"\[[^\]]*\]|\([^)]*\)"
-    hashtags_at_pattern = r"[#@\u0040\uFF20\uFE6B]"
-    newline_pattern = r"\r?\n+"
-    punctuation_pattern = r"[\u0021-\u0026\u0028-\u002F\u003A-\u003F\u005B-\u005F\u2010-\u2028\ufeff]+"
-    multi_space_pattern = r"\s+"
+    url_pattern = re.compile(r"(?:https?://|www\.)\S+|(?:[a-z0-9]+\.)+[a-z0-9]{2,}(?:/\S*)?", flags=re.IGNORECASE)
+    bracket_pattern = re.compile(r"\[[^\]]*\]|\([^)]*\)")
+    hashtags_at_pattern = re.compile(r"[#@\uFF20\uFE6B]")
+    newline_pattern = re.compile(r"\r?\n+")
+    word_with_digit_pattern = re.compile(r"\S*\d\S*")
+    punctuation_pattern = re.compile(r"[\u0021-\u0026\u0028-\u002F\u003A-\u003F\u005B-\u005F\u2010-\u2028\ufeff]+")
+    elongation_pattern = re.compile(r"([^\W\d_])\1{2,}")
+    multi_space_pattern = re.compile(r"\s+")
 
-    clean_text = re.sub(song_tags, "", raw_text)
-    clean_text = re.sub(url_pattern, "", clean_text, flags=re.IGNORECASE)
-    clean_text = re.sub(bracket_pattern, "", clean_text)
-    clean_text = re.sub(hashtags_at_pattern, "", clean_text)
-    clean_text = re.sub(newline_pattern, " ", clean_text)
-    clean_text = re.sub(punctuation_pattern, "", clean_text)
-    clean_text = re.sub(multi_space_pattern, " ", clean_text).strip()
-    return clean_text
+    text = raw_text.lower()
+    text = url_pattern.sub(" ", text)
+    text = song_tags.sub(" ", text)
+    text = bracket_pattern.sub(" ", text)
+    text = hashtags_at_pattern.sub(" ", text)
+    text = newline_pattern.sub(" ", text)
 
+    # Delete any chunk containing a digit: 2you2, rr2, rr-2, rr_2, 90s, 2024
+    text = word_with_digit_pattern.sub(" ", text)
+
+    text = punctuation_pattern.sub(" ", text)
+
+    if collapse_elongations:
+        text = elongation_pattern.sub(r"\1\1", text)
+
+    text = multi_space_pattern.sub(" ", text).strip()
+
+    return " ".join(w for w in text.split() if w not in stopwords)
 
 def lemmatize_all(token, list_pos=["n", "v", "a", "r", "s"]):
     for arg_1 in list_pos:
