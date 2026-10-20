@@ -46,8 +46,7 @@ class CoevoObliqueForest:
     def _predict_trees(self, G, LP, X):
         """Per tree probabilities for rows of X. (m, n, C)"""
         leaf = self._route(G, X)
-        return np.take_along_axis(LP, leaf[:, :, None], axis=1) if False else \
-            LP[np.arange(G.shape[0])[:, None], leaf]
+        return LP[np.arange(G.shape[0])[:, None], leaf]
 
     # ---------- initialization ----------
     def _init_slot(self, X, boot):
