@@ -29,8 +29,10 @@ def regex_cleaner(raw_text, stopwords=None, collapse_elongations=True):
     punctuation_pattern = re.compile(r"[\u0021-\u0026\u0028-\u002F\u003A-\u003F\u005B-\u005F\u2010-\u2028\ufeff]+")
     elongation_pattern = re.compile(r"([^\W\d_])\1{2,}")
     multi_space_pattern = re.compile(r"\s+")
+    apostrophe_pattern = re.compile(r"[`´‘’ʼ]")
 
     text = raw_text.lower()
+    text = apostrophe_pattern.sub("'", text)  # curly quotes must stay apostrophes so contractions.fix can expand them
     text = url_pattern.sub(" ", text)
     text = song_tags.sub(" ", text)
     text = bracket_pattern.sub(" ", text)
@@ -88,6 +90,11 @@ def main_pipeline(raw_text,
     if stemmed:
         tokenized_text = [STEMMER.stem(token) for token in tokenized_text]
     
+    # Final gate after all transforms: plain ASCII letters only, 2+ chars, no stopwords
+    tokenized_text = [t for t in tokenized_text
+                      if len(t) > 1 and t.isascii() and t.isalpha()
+                      and not (no_stopwords and t in STOPWORDS)]
+
     if pos_tags_list:
         pos_tags = [pos[1] for pos in nltk.tag.pos_tag(tokenized_text)]
 
