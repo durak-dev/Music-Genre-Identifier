@@ -1,0 +1,34 @@
+{
+  "glove__HistGradientBoosting": {
+    "train_accuracy": 0.5148325453698472,
+    "fit_seconds": 5.9
+  },
+  "glove__RandomForest": {
+    "train_accuracy": 0.9225020566342561,
+    "fit_seconds": 38.6
+  },
+  "glove__NaiveBayes": {
+    "train_accuracy": 0.3778953941304154,
+    "fit_seconds": 0.2
+  },
+  "glove__LogisticRegression": {
+    "train_accuracy": 0.4244595759864411,
+    "fit_seconds": 20.4
+  },
+  "glove_tfidf__HistGradientBoosting": {
+    "train_accuracy": 0.5999524248461241,
+    "fit_seconds": 182.8
+  },
+  "glove_tfidf__RandomForest": {
+    "train_accuracy": 0.9125013628299288,
+    "fit_seconds": 54.7
+  },
+  "glove_tfidf__NaiveBayes": {
+    "train_accuracy": 0.39034422606127284,
+    "fit_seconds": 1.3
+  },
+  "glove_tfidf__LogisticRegression": {
+    "train_accuracy": 0.5117798063294777,
+    "fit_seconds": 745.5
+  }
+}
