@@ -1,5 +1,27 @@
+# data and generated files
 data/
+models/
 *.parquet
 *.csv
+*.npy
+
+# Python
 __pycache__/
 *.pyc
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# editors and IDEs
+.vscode/
+.idea/
+
+# operating system
+.DS_Store
+Thumbs.db
+
+# credentials
+.env
+kaggle.json

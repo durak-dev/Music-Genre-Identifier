@@ -1,0 +1,34 @@
+# Environment: conda create -n text_mining_project python=3.12
+#              conda activate text_mining_project
+#              pip install -r requirements.txt
+
+# data handling
+numpy==2.5.4
+pandas==3.0.6
+polars==2.0.0
+pyarrow==26.0.0
+scipy==1.18.1
+tqdm==4.70.1
+
+# data download
+kaggle==2.2.4
+
+# text preprocessing
+nltk==3.10.3
+contractions==0.1.73
+unidecode==1.4.0
+
+# modelling
+scikit-learn==1.9.1
+torch==2.14.1
+transformers==5.20.2
+
+# plots
+matplotlib==3.11.2
+
+# notebooks
+ipykernel==7.4.0
+jupyter==1.1.1
+
+# only needed because preprocessing.ipynb imports it (unused, not an allowed package -> to be removed)
+mittens==0.2
