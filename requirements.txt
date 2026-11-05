@@ -1,0 +1,24 @@
+# Python packages used by the notebooks and the utils/ modules
+# (versions are the minimum tested in the local conda env `text-mining`)
+numpy>=1.26
+pandas>=2.3
+polars>=2.0
+scipy>=1.15
+scikit-learn>=1.7
+matplotlib>=3.10
+tqdm>=4.66
+
+# text preprocessing
+nltk>=3.9
+contractions>=0.1.73
+Unidecode>=1.4
+
+# embeddings and models
+torch>=2.8
+transformers>=4.57
+umap-learn>=0.5.12
+
+# data download and notebooks
+kaggle>=2.2
+ipykernel>=7.0
+ipywidgets>=8.0
