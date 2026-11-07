@@ -3,3 +3,11 @@ data/
 *.csv
 __pycache__/
 *.pyc
+*.npy
+*.kv
+*.keras
+nn_hyperband/
+!Word2Vec/output_files/word2vec_param_testing.csv
+!Word2Vec/output_files/hyperband_top5.csv
+!Word2Vec/output_files/nn_training_log.csv
+!Word2Vec/output_files/submission_w2v_nn.csv
