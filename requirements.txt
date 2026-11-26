@@ -12,6 +12,7 @@ tqdm>=4.66
 nltk>=3.9
 contractions>=0.1.73
 Unidecode>=1.4
+textblob>=0.19
 
 # embeddings and models
 torch>=2.8
