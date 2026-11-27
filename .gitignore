@@ -11,3 +11,6 @@ nn_hyperband/
 !Word2Vec/output_files/hyperband_top5.csv
 !Word2Vec/output_files/nn_training_log.csv
 !Word2Vec/output_files/submission_w2v_nn.csv
+!validation/*.csv
+CLAUDE.local.md
+.claude/settings.local.json
